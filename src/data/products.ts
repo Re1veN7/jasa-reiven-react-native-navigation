@@ -45,13 +45,13 @@ export const PRODUCTS: Product[] = [
     { 
         id: '7', 
         name: 'Pop! Sylvanas Windrunner', 
-        price: 14.99, 
+        price: 29.99, 
         image: require('../assets/images/pop-sylvanas.png'),
     },
     { 
-        id: '1', 
+        id: '8', 
         name: 'Pop! The Lich King', 
-        price: 14.99, 
+        price: 54.99, 
         image: require('../assets/images/pop-lichking.png'),
     },
 ];
