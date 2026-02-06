@@ -5,6 +5,8 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/types';
 import { useCart } from '../context/CartContext';
 import { useTheme } from '../context/ThemeContext';
+import Header from '../components/Header';
+import { CommonActions } from '@react-navigation/native';
 
 type CheckoutScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Checkout'>;
 
@@ -26,7 +28,12 @@ const CheckoutScreen = () => {
           text: 'OK',
           onPress: () => {
             clearCart(); // Optional: Clean up cart after purchase
-            navigation.navigate('Home');
+            navigation.dispatch(
+              CommonActions.reset({
+                index: 0,
+                routes: [{ name: 'Home' }],
+              })
+            );
           },
         },
       ]
@@ -35,7 +42,10 @@ const CheckoutScreen = () => {
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor }]}>
-      <Text style={[styles.header, { color: textColor }]}>Order Summary</Text>
+        <Header />
+        <View style={styles.contentContainer}>
+            <Text style={[styles.header, { color: textColor }]}>Order Summary</Text>
+        </View>
       
       <FlatList
         data={cart}
@@ -63,7 +73,8 @@ const CheckoutScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20 },
+  container: { flex: 1 },
+  contentContainer: { flex: 1, padding: 20 },
   header: { fontSize: 24, fontWeight: 'bold', marginBottom: 20 },
   row: { 
     flexDirection: 'row', 
