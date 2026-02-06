@@ -5,6 +5,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/types';
 import { useCart } from '../context/CartContext';
 import { useTheme } from '../context/ThemeContext';
+import Header from '../components/Header';
 
 type CartScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Cart'>;
 
@@ -20,6 +21,11 @@ const CartScreen = () => {
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor }]}>
+        <Header />
+        <View style={styles.contentContainer}>
+            <Text style={[styles.header, { color: textColor }]}>Order Summary</Text>
+        </View>
+
       <FlatList
         data={cart}
         keyExtractor={(item) => item.id}
@@ -61,7 +67,9 @@ const CartScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16 },
+  container: { flex: 1 },
+  contentContainer: { flex: 1, padding: 16 },
+  header: { fontSize: 24, fontWeight: 'bold', marginBottom: 20 },
   cartItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',

@@ -13,9 +13,7 @@ export const AppNavigator = () => {
         <Stack.Navigator 
         initialRouteName="Home"
         screenOptions={{
-            headerTitleAlign: 'center',
-            headerStyle: {backgroundColor: '#6200ee'},
-            headerTintColor: '#fff',
+            headerShown: false,
         }}>
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="Cart" component={CartScreen} />

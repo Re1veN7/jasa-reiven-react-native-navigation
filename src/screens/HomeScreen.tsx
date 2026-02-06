@@ -15,6 +15,7 @@ import { RootStackParamList } from '../navigation/types';
 import { PRODUCTS } from '../data/products';
 import { useCart } from '../context/CartContext';
 import { useTheme } from '../context/ThemeContext';
+import Header from '../components/Header';
 
 // Navigation Type
 type HomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
@@ -31,22 +32,21 @@ const HomeScreen = () => {
 
     return (
         <SafeAreaView style={[styles.container, { backgroundColor }]}>
-            {/* Header Section */}
-            <View style={styles.header}>
-                <Text style={[styles.title, { color: textColor }]}>Shop Now</Text>
-                <Button 
-                    title={isDark ? "☀️ Light Mode" : "🌙 Dark Mode"}
-                    onPress={toggleTheme}
-                />
-            </View>
+            {/* 1. Add Custom Header */}
+            <Header />
 
-            {/* Go to Cart Button */}
-            <TouchableOpacity
-                style={styles.cartButton}
-                onPress={() => navigation.navigate('Cart')}
-            >
-                <Text style={styles.cartButtonText}>Go to Cart 🛒</Text>
-            </TouchableOpacity>
+            <View style={styles.contentContainer}>
+
+                {/* 2. Reordered: Button First, Text Second */}
+                <TouchableOpacity
+                    style={styles.cartButton}
+                    onPress={() => navigation.navigate('Cart')}
+                >
+                    <Text style={styles.cartButtonText}>Go to Cart 🛒</Text>
+                </TouchableOpacity>
+
+                <Text style={[styles.title, { color: textColor }]}>Shop Now</Text>
+            </View>
 
             {/* Product List */}
             <FlatList
@@ -77,17 +77,15 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 16,
     },
-    header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: 20,
+    contentContainer: {
+        flex: 1,
+        padding: 16,
     },
     title: {
         fontSize: 24,
         fontWeight: 'bold',
+        marginBottom: 20,
     },
     cartButton: {
         backgroundColor: '#6200ee',
@@ -105,15 +103,9 @@ const styles = StyleSheet.create({
         padding: 16,
         borderRadius: 12,
         marginBottom: 16,
-        // Shadow for iOS
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        // Elevation for Android
-        elevation: 3,
         flexDirection: 'row',
         alignItems: 'center',
+        elevation: 3,
     },
     image: {
         width: 80,
