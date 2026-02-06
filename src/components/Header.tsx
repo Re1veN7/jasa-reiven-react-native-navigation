@@ -35,10 +35,6 @@ const Header = () => {
         <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
           <Text style={getTabStyle('Cart')}>Cart</Text>
         </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => navigation.navigate('Checkout')}>
-          <Text style={getTabStyle('Checkout')}>Checkout</Text>
-        </TouchableOpacity>
       </View>
 
       {/* Theme Toggle (Emoji) on the far right */}
