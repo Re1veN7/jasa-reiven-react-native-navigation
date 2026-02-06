@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, SafeAreaView, Image, Alert } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, SafeAreaView, Image, Alert, TextInput, Keyboard } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/types';
@@ -11,7 +11,7 @@ type CartScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'C
 
 const CartScreen = () => {
   const navigation = useNavigation<CartScreenNavigationProp>();
-  const { cart, incrementQuantity, removeFromCart, totalPrice } = useCart();
+  const { cart, incrementQuantity, removeFromCart, updateQuantity, totalPrice } = useCart();
   const { theme } = useTheme();
 
   const isDark = theme === 'dark';
@@ -35,6 +35,17 @@ const CartScreen = () => {
         );
     } else {
         removeFromCart(id);
+    }
+  };
+
+  const handleInputChange = (text: string, id: string) => {
+    const cleanNumber = text.replace(/[^0-9]/g, '');
+    const quantity = parseInt(cleanNumber, 10);
+
+    if (!isNaN(quantity) && quantity > 0) {
+        updateQuantity(id, quantity);
+    }   else if (text === '') {
+        // If user clears the input, don't update immediately or set to 1
     }
   };
 
@@ -62,7 +73,13 @@ const CartScreen = () => {
                 <Text style={styles.buttonText}>-</Text>
               </TouchableOpacity>
               
-              <Text style={[styles.quantity, { color: textColor }]}>{item.quantity}</Text>
+              <TextInput 
+                style={[styles.input, { color: textColor, borderColor: isDark ? '#555' : '#ccc' }]}
+                value={String(item.quantity)}
+                keyboardType="numeric"
+                onChangeText={(text) => handleInputChange(text, item.id)}
+                maxLength={3} 
+            />
               
               <TouchableOpacity onPress={() => incrementQuantity(item.id)} style={styles.button}>
                 <Text style={styles.buttonText}>+</Text>
@@ -118,6 +135,18 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   buttonText: { fontSize: 18, fontWeight: 'bold', color: 'black' },
+
+  input: {
+    marginHorizontal: 10,
+    fontSize: 16,
+    textAlign: 'center',
+    width: 40,
+    height: 30,
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 0,
+  },
+
   quantity: { marginHorizontal: 12, fontSize: 16 },
   emptyText: { textAlign: 'center', marginTop: 50, fontSize: 18 },
   footer: { paddingVertical: 20, borderTopWidth: 1 },
