@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, FlatList, TouchableOpacity, Alert, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Alert, StyleSheet, SafeAreaView, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/types';
@@ -52,8 +52,13 @@ const CheckoutScreen = () => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={styles.row}>
-            <Text style={[styles.text, { color: textColor }]}>{item.name} x {item.quantity}</Text>
-            <Text style={[styles.text, { color: textColor }]}>${(item.price * item.quantity).toFixed(2)}</Text>
+            <Image source={item.image} style={styles.thumbImage} resizeMode="contain" />
+            <Text style={[styles.itemName, { color: textColor }]}>{item.name} <Text style={{fontWeight: 'bold'}}>x {item.quantity}</Text>
+                    </Text>
+
+            <Text style={[styles.itemPrice, { color: textColor }]}>
+                ${(item.price * item.quantity).toFixed(2)}
+            </Text>
           </View>
         )}
       />
@@ -64,8 +69,12 @@ const CheckoutScreen = () => {
           <Text style={styles.totalAmount}>${totalPrice.toFixed(2)}</Text>
         </View>
 
-        <TouchableOpacity style={styles.payButton} onPress={handleCheckout}>
-          <Text style={styles.payButtonText}>Checkout</Text>
+        <TouchableOpacity
+            style={[styles.payButton, { opacity: cart.length === 0 ? 0.5 : 1 }]}
+            onPress={handleCheckout}
+            disabled={cart.length === 0}
+        >
+            <Text style={styles.payButtonText}>Checkout</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -77,14 +86,23 @@ const styles = StyleSheet.create({
   contentContainer: { flex: 1, padding: 20 },
   header: { fontSize: 24, fontWeight: 'bold', marginBottom: 20 },
   row: { 
-    flexDirection: 'row', 
+    flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-between', 
     marginBottom: 10,
     borderBottomWidth: 0.5,
     borderBottomColor: '#ccc',
     paddingBottom: 8
   },
-  text: { fontSize: 16 },
+  thumbImage: {
+    width: 40,
+    height: 40,
+    marginRight: 10,
+    borderRadius: 4,
+  },
+  itemName: { flex: 1, fontSize: 16 },
+  itemPrice: { fontSize: 16, fontWeight: '600' },
+ 
   footer: { marginTop: 20 },
   totalRow: { 
     flexDirection: 'row', 

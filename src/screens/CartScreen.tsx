@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, SafeAreaView, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/types';
@@ -23,7 +23,7 @@ const CartScreen = () => {
     <SafeAreaView style={[styles.container, { backgroundColor }]}>
         <Header />
         <View style={styles.contentContainer}>
-            <Text style={[styles.header, { color: textColor }]}>Order Summary</Text>
+            <Text style={[styles.header, { color: textColor }]}>Your Cart</Text>
         </View>
 
       <FlatList
@@ -32,6 +32,7 @@ const CartScreen = () => {
         ListEmptyComponent={<Text style={[styles.emptyText, { color: textColor }]}>Your cart is empty.</Text>}
         renderItem={({ item }) => (
           <View style={[styles.cartItem, { backgroundColor: cardColor }]}>
+            <Image source={item.image} style={styles.itemImage} resizeMode="contain" />
             <View style={styles.itemDetails}>
               <Text style={[styles.name, { color: textColor }]}>{item.name}</Text>
               <Text style={styles.price}>${(item.price * item.quantity).toFixed(2)}</Text>
@@ -73,10 +74,17 @@ const styles = StyleSheet.create({
   cartItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     padding: 16,
     marginBottom: 12,
     borderRadius: 8,
     elevation: 2,
+  },
+  itemImage: {
+    width: 60,
+    height: 60,
+    marginRight: 16,
+    borderRadius: 8,
   },
   itemDetails: { flex: 1 },
   name: { fontSize: 16, fontWeight: 'bold' },
