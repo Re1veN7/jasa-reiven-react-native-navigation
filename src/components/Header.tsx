@@ -4,15 +4,19 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/types';
 import { useTheme } from '../context/ThemeContext';
+import { useCart } from '../context/CartContext';
 
 const Header = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const route = useRoute();
   const { theme, toggleTheme } = useTheme();
+  const { cart } = useCart();
 
   const isDark = theme === 'dark';
   const textColor = isDark ? '#ffffff' : '#000000';
   const containerColor = isDark ? '#1f1f1f' : '#ffffff';
+
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   const getTabStyle = (tabName: string) => {
     return {
@@ -33,7 +37,9 @@ const Header = () => {
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
-          <Text style={getTabStyle('Cart')}>Cart</Text>
+          <Text style={getTabStyle('Cart')}>
+            Cart {totalItems > 0 ? `(${totalItems})` : ''}
+          </Text>
         </TouchableOpacity>
       </View>
 
