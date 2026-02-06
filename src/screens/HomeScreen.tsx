@@ -32,19 +32,9 @@ const HomeScreen = () => {
 
     return (
         <SafeAreaView style={[styles.container, { backgroundColor }]}>
-            {/* 1. Add Custom Header */}
             <Header />
 
             <View style={styles.contentContainer}>
-
-                {/* 2. Reordered: Button First, Text Second */}
-                <TouchableOpacity
-                    style={styles.cartButton}
-                    onPress={() => navigation.navigate('Cart')}
-                >
-                    <Text style={styles.cartButtonText}>Go to Cart 🛒</Text>
-                </TouchableOpacity>
-
                 <Text style={[styles.title, { color: textColor }]}>Shop Now</Text>
             </View>
 
@@ -52,6 +42,7 @@ const HomeScreen = () => {
             <FlatList
                 data={PRODUCTS}
                 keyExtractor={(item) => item.id}
+                contentContainerStyle={{ paddingBottom: 100 }}
                 renderItem={({ item }) => (
                     <View style={[styles.card, { backgroundColor: cardColor }]}>
                         <Image source={item.image} style={styles.image} resizeMode="contain" />
@@ -70,6 +61,15 @@ const HomeScreen = () => {
                     </View>
                 )}
             />
+
+            <View style={styles.floatingButtonContainer}>
+                <TouchableOpacity
+                    style={styles.cartButton}
+                    onPress={() => navigation.navigate('Cart')}
+                >
+                    <Text style={styles.cartButtonText}>Go to Cart 🛒</Text>
+                </TouchableOpacity>
+            </View>
         </SafeAreaView>
     );
 };
@@ -81,11 +81,20 @@ const styles = StyleSheet.create({
     contentContainer: {
         flex: 1,
         padding: 16,
+        position: 'relative',
     },
     title: {
         fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 20,
+    },
+    floatingButtonContainer: {
+        position: 'absolute',
+        bottom: 20,
+        left: 0,
+        right: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     cartButton: {
         backgroundColor: '#6200ee',
