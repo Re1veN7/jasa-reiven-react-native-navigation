@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, SafeAreaView, Image } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, SafeAreaView, Image, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/types';
@@ -18,6 +18,25 @@ const CartScreen = () => {
   const backgroundColor = isDark ? '#121212' : '#f5f5f5';
   const textColor = isDark ? '#ffffff' : '#000000';
   const cardColor = isDark ? '#1e1e1e' : '#ffffff';
+
+  const handleDecrement = (id: string, currentQuantity: number) => {
+    if (currentQuantity === 1) {
+        Alert.alert(
+            "Remove Product",
+            "Are you sure you want to remove this product from the cart?",
+            [
+                { text: "Cancel", style: "cancel" },
+                { 
+                    text: "Remove",
+                    onPress: () => removeFromCart(id),
+                    style: "destructive"
+                }
+            ]
+        );
+    } else {
+        removeFromCart(id);
+    }
+  };
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor }]}>
@@ -39,7 +58,7 @@ const CartScreen = () => {
             </View>
             
             <View style={styles.controls}>
-              <TouchableOpacity onPress={() => removeFromCart(item.id)} style={styles.button}>
+              <TouchableOpacity onPress={() => handleDecrement(item.id, item.quantity)} style={styles.button}>
                 <Text style={styles.buttonText}>-</Text>
               </TouchableOpacity>
               

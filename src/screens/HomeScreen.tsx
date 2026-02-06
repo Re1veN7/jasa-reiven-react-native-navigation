@@ -7,7 +7,8 @@ import {
     TouchableOpacity,
     StyleSheet,
     Button,
-    SafeAreaView
+    SafeAreaView,
+    Alert
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -29,6 +30,11 @@ const HomeScreen = () => {
     const backgroundColor = isDark ? '#121212' : '#F5F5F5';
     const textColor = isDark ? '#FFFFFF' : '#000000';
     const cardColor = isDark ? '#1E1E1E' : '#FFFFFF';
+
+    const handleAddToCart = (item: any) => {
+        addToCart(item);
+        Alert.alert("Success", "Added to cart");
+    }
 
     return (
         <SafeAreaView style={[styles.container, { backgroundColor }]}>
@@ -54,7 +60,7 @@ const HomeScreen = () => {
 
                         <TouchableOpacity
                             style={styles.addButton}
-                            onPress={() => addToCart(item)}
+                            onPress={() => handleAddToCart(item)}
                         >
                             <Text style={styles.addButtonText}>Add to Cart</Text>
                         </TouchableOpacity>
